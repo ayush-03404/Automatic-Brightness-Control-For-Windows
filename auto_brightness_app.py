@@ -29,14 +29,15 @@ def get_resource_path(relative_path):
     if hasattr(sys, '_MEIPASS'):
         return os.path.join(sys._MEIPASS, relative_path)
     return os.path.join(os.path.abspath("."), relative_path)
-    
+
 class AutoBrightnessApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Advanced Dual Display Auto-Brightness Sync")
         self.root.geometry("1000x800") # Expanded for new buttons
         self.root.resizable(True, True)
-        
+        self.root.iconbitmap(get_resource_path('logo.ico'))
+
         # Thread Synchronization Tools
         self.lock = threading.Lock()
         self.shutdown_event = threading.Event()
@@ -644,7 +645,7 @@ class AutoBrightnessApp:
 
     def minimize_to_tray(self):
         self.root.withdraw()
-        image = Image.new('RGB', (64, 64), color=(0, 120, 212))
+        image = Image.open(get_resource_path('logo.ico'))
         draw = ImageDraw.Draw(image)
         draw.ellipse((16, 16, 48, 48), fill=(255, 255, 255))
         menu = pystray.Menu(

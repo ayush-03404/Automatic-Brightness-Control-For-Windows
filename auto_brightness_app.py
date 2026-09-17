@@ -25,10 +25,14 @@ logging.basicConfig(
 CONFIG_FILE = "auto_brightness_config.json"
 
 def get_resource_path(relative_path):
-    """Get absolute path to resource, works for dev and for PyInstaller."""
-    if hasattr(sys, '_MEIPASS'):
-        return os.path.join(sys._MEIPASS, relative_path)
-    return os.path.join(os.path.abspath("."), relative_path)
+    """Get absolute path to resource for cx_Freeze or raw Python."""
+    if getattr(sys, 'frozen', False):
+        # The application is installed and running compiled
+        application_path = os.path.dirname(sys.executable)
+    else:
+        # The application is running as a raw Python script
+        application_path = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(application_path, relative_path)
 
 class AutoBrightnessApp:
     def __init__(self, root):
